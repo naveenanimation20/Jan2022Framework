@@ -9,6 +9,8 @@ public class OrderPage {
 	
 	public void makeOrder() {
 		System.out.println("order page....");
+		System.out.println("order is generated");
+
 	}
 	
 
