@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -13,6 +15,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import com.qa.opencart.utils.Browser;
@@ -27,7 +30,7 @@ public class DriverFactory {
 	public static String highlight;
 	public OptionsManager optionsManager;
 	public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<WebDriver>();
-	
+
 	public static final Logger log = Logger.getLogger(DriverFactory.class);
 
 	/**
@@ -42,25 +45,33 @@ public class DriverFactory {
 		String browserName = prop.getProperty("browser").trim();
 		System.out.println("browser name is : " + browserName);
 		log.info("browser name is : " + browserName);
-		
+
 		highlight = prop.getProperty("highlight").trim();
 		optionsManager = new OptionsManager(prop);
 
 		if (browserName.equalsIgnoreCase(Browser.CHROME_BROWSER_VAUE)) {
 			log.info("running test on chrome browser....");
-			WebDriverManager.chromedriver().setup();
-			System.setProperty(Browser.CHROME_DRIVER_BINARY_KEY, Browser.CHROME_DRIVER_PATH);
-			tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
-		} 
-		else if (browserName.equalsIgnoreCase(Browser.FIREFOX_BROWSER_VAUE)) {
-			WebDriverManager.firefoxdriver().setup();
-			//System.setProperty(Browser.GECKO_DRIVER_BINARY_KEY, Browser.FIREFOX_DRIVER_PATH);
-			tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
-		} 
-		else if (browserName.equalsIgnoreCase(Browser.SAFARI_BROWSER_VAUE)) {
+
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+				init_remoteWebDriver(Browser.CHROME_BROWSER_VAUE);
+			} else {
+				// local execution:
+				WebDriverManager.chromedriver().setup();
+				tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
+			}
+
+		} else if (browserName.equalsIgnoreCase(Browser.FIREFOX_BROWSER_VAUE)) {
+
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+				init_remoteWebDriver(Browser.FIREFOX_BROWSER_VAUE);
+			} else {
+				WebDriverManager.firefoxdriver().setup();
+				tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
+			}
+
+		} else if (browserName.equalsIgnoreCase(Browser.SAFARI_BROWSER_VAUE)) {
 			tlDriver.set(new SafariDriver());
-		} 
-		else {
+		} else {
 			System.out.println(Errors.BROWSER_NOT_FOUND_ERROR_MESSG + browserName);
 		}
 
@@ -70,6 +81,33 @@ public class DriverFactory {
 		log.info(prop.getProperty("url") + " .... url is launched....");
 
 		return getDriver();
+
+	}
+
+	/**
+	 * this method is used to run tests on remote - docker machine
+	 * 
+	 * @param browserName
+	 */
+	private void init_remoteWebDriver(String browserName) {
+
+		System.out.println("Runnng test cases on remote grid server: " + browserName);
+
+		if (browserName.equalsIgnoreCase("chrome")) {
+			try {
+				tlDriver.set(
+						new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionsManager.getChromeOptions()));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		} else if (browserName.equalsIgnoreCase("firefox")) {
+			try {
+				tlDriver.set(
+						new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionsManager.getFirefoxOptions()));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
 
 	}
 
@@ -98,7 +136,7 @@ public class DriverFactory {
 		String envName = System.getProperty("env");
 		System.out.println("Running tests on environment: " + envName);
 		log.info("Running tests on environment: " + envName);
-		
+
 		if (envName == null) {
 			System.out.println("No env is given....hence running it on QA");
 			log.info("No env is given....hence running it on QA");
