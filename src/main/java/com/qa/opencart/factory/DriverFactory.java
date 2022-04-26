@@ -18,6 +18,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
+import com.qa.opencart.exceptions.DriverException;
+import com.qa.opencart.exceptions.FrameworkException;
 import com.qa.opencart.utils.Browser;
 import com.qa.opencart.utils.Errors;
 
@@ -73,6 +75,7 @@ public class DriverFactory {
 			tlDriver.set(new SafariDriver());
 		} else {
 			System.out.println(Errors.BROWSER_NOT_FOUND_ERROR_MESSG + browserName);
+			throw new DriverException("browser is not correct..." + Errors.BROWSER_NOT_FOUND_ERROR_MESSG + browserName);
 		}
 
 		getDriver().manage().deleteAllCookies();
@@ -173,7 +176,8 @@ public class DriverFactory {
 					log.error("please pass the right environment....." + envName);
 					log.warn("env name is not found....");
 					log.fatal("env is not found....");
-					break;
+					throw new FrameworkException("environment name is not valid..." + envName);
+					//break;
 				}
 			} catch (Exception e) {
 

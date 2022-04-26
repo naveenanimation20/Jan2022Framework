@@ -9,6 +9,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import com.qa.opencart.exceptions.FrameworkException;
+
 public class ExcelUtil {
 
 	private static Workbook book;
@@ -32,6 +34,7 @@ public class ExcelUtil {
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			throw new FrameworkException("Excel file is not found or incorrect...");
 		} catch (InvalidFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
