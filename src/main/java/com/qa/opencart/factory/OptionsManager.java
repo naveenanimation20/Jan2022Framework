@@ -22,8 +22,8 @@ public class OptionsManager {
 		if(Boolean.parseBoolean(prop.getProperty("incognito"))) co.addArguments("--incognito");
 		
 			if(Boolean.parseBoolean(prop.getProperty("remote"))) {
-				co.setPlatformName("linux");
-				co.setCapability("enableVNC", true);
+				//co.setPlatformName("linux");
+				//co.setCapability("enableVNC", true);
 				co.setBrowserVersion(prop.getProperty("browserversion"));
 			}
 		
