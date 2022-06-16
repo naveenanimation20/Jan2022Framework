@@ -15,57 +15,23 @@
 
 	</listeners>
 
-	<test name="Open Cart Login Page Test _ chrome_89">
+	<test name="Open Cart Login Page Test _ chrome_91">
 		<parameter name="browser" value="chrome" />
-		<parameter name="browserversion" value="101.0" />
+		<parameter name="browserversion" value="91.0" />
 		<classes>
 			<class name="com.qa.opencart.tests.LoginPageTest" />
 		</classes>
 	</test>
 
-	<!-- <test name="Open Cart Login Page Test _ chrome_91">
-		<parameter name="browser" value="chrome" />
-		<parameter name="browserversion" value="101.0" />
-		<classes>
-			<class name="com.qa.opencart.tests.LoginPageTest" />
-		</classes>
-	</test>
 
-	<test name="Open Cart Accounts Page Test">
+
+	<test name="Open Cart Accounts Page Test_chrome_90">
 		<parameter name="browser" value="chrome" />
-		<parameter name="browserversion" value="101.0" />
+		<parameter name="browserversion" value="90.0" />
 		<classes>
 			<class name="com.qa.opencart.tests.AccountsPageTest" />
 		</classes>
 	</test>
 
-	<test name="Open Cart Login Page Negative Test _ chrome_91">
-		<parameter name="browser" value="chrome" />
-		<parameter name="browserversion" value="101.0" />
-		<classes>
-			<class name="com.qa.opencart.tests.LoginPageNegativeTest" />
-		</classes>
-	</test> -->
-
-	<!-- <test name="Open Cart Login Page Test _ firefox_57"> <parameter name="browser" 
-		value="firefox" /> <parameter name="browserversion" value="57.0" /> <classes> 
-		<class name="com.qa.opencart.tests.LoginPageTest" /> </classes> </test> <test 
-		name="Open Cart Login Page Test _ firefox_83"> <parameter name="browser" 
-		value="firefox" /> <parameter name="browserversion" value="83.0" /> <classes> 
-		<class name="com.qa.opencart.tests.LoginPageTest" /> </classes> </test> -->
-
-
-
-
-
-	<!-- <test name="Open Cart Login Page Negative Test _ chrome"> <parameter 
-		name="browser" value="firefox" /> <classes> <class name="com.qa.opencart.tests.LoginPageNegativeTest" 
-		/> </classes> </test> -->
-
-
-
-	<!-- <test name="Open Cart Product Info Page Test"> <classes> <class name="com.qa.opencart.tests.ProductInfoPageTest" 
-		/> </classes> </test> <test name="Open Cart Registration Page Test"> <classes> 
-		<class name="com.qa.opencart.tests.RegistrationPageTest" /> </classes> </test> -->
 
 </suite>
