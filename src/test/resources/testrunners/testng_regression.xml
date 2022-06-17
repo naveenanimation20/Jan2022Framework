@@ -31,6 +31,15 @@
 			<class name="com.qa.opencart.tests.AccountsPageTest" />
 		</classes>
 	</test> 
+	
+	
+	<test name="Open Cart Accounts Regression Page Test_chrome_89">
+		<parameter name="browser" value="chrome" />
+		<parameter name="browserversion" value="89.0" />
+		<classes>
+			<class name="com.qa.opencart.tests.AccountsPageTest" />
+		</classes>
+	</test> 
 
 
 </suite>

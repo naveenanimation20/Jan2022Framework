@@ -2,9 +2,9 @@ package com.qa.opencart.tests;
 
 import java.util.List;
 
-
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.qa.opencart.base.BaseTest;
@@ -59,13 +59,25 @@ public class AccountsPageTest extends BaseTest {
 		Assert.assertEquals(actSecList, Constants.ACCOUNTS_SECTIONS_LIST);
 	}
 
-	@Test
+	
+	@DataProvider
+	public Object[][] getProductData() {
+		return new Object[][] {
+			{"MacBook"},
+			{"iMac"},
+			{"Samsung"},
+			{"iPhone"}
+		};
+	}
+	
+	
+	@Test(dataProvider = "getProductData")
 	@Description("Search Header Test")
 	@Severity(SeverityLevel.NORMAL)
-	public void searchHeaderTest() {
-		searchResultsPage = accPage.doSearch("Macbook");
+	public void searchHeaderTest(String productName) {
+		searchResultsPage = accPage.doSearch(productName);
 		String actSearchHeader = searchResultsPage.getResultsPageHeaderValue();
-		Assert.assertTrue(actSearchHeader.contains("Macbook"));
+		Assert.assertTrue(actSearchHeader.contains(productName));
 	}
 
 	@Test
